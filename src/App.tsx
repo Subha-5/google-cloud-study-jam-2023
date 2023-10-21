@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Navbar from "./components/Navbar"
 import Search from "./components/Search"
+import Leaderboard from "./components/Leaderboard";
 import axios from 'axios';
-import Leaderboard from './components/Leaderboard';
 
 export type DataFormat = {
   "Names": string;
@@ -15,11 +15,17 @@ export type DataFormat = {
   "Swags Status": string;
 }
 
+export type LeaderboardFormat = {
+  "Date": string;
+}
 
-const GET_ALL_USERS = "https://nirvik10.pythonanywhere.com" + '/member'
+const GET_ALL_USERS = import.meta.env.VITE_API_URL + '/member';
+const GET_LEADERBOARD = import.meta.env.VITE_API_URL + '/leaderboard'
 
 function App() {
   const [dataArr, setDataArr] = useState<Array<DataFormat>>([]);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardFormat[]>([])
+
   useEffect(() => {
     const loadedUsers: DataFormat[] = [];
     axios.get(GET_ALL_USERS)
@@ -31,16 +37,33 @@ function App() {
         setDataArr(loadedUsers);
       })
       .catch(error => {
-        console.log(`Error fetching data: ${error}`
+        console.log(`Error fetching members: ${error}`
         );
       })
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const loadedUsers: LeaderboardFormat[] = [];
+    axios.get(GET_LEADERBOARD)
+      .then(response => {
+        const dataSet = response.data["data"];
+        for (const name of dataSet) {
+          loadedUsers.push(name)
+        }
+        setLeaderboard(loadedUsers);
+      })
+      .catch(error => {
+        console.log(`Error fetching leaderboard: ${error}`
+        );
+      })
+  }, []);
+
   return (
-    <div className='mb-3 mx-md-3 mx-lg-5'>
+    <div className=''>
       <Navbar />
       <h1 className='text-center fs-sm-6 fs-md-4 fs-1'>Google Cloud Study Jam 2023</h1>
 
-      <Leaderboard/>
+      <Leaderboard dataArr={leaderboard}/>
 
       <Search allMembers={dataArr}/>
 
