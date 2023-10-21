@@ -10,7 +10,7 @@ const CardLayout = (props: CardLayoutProps) => {
     const eligibleForSwags = isCompleted(props.user["Swags Status"])
   return (
     <Card className="rounded "
-      style={{ border: "1px solid gray", minWidth: "18rem", maxWidth: "100vw" }}
+      style={{ border: "1px solid gray", minWidth: "10rem", maxWidth: "100vw" }}
     >
       <Card.Body>
         <Card.Title className="fw-bold my-3">{props.user["Names"]}</Card.Title>
