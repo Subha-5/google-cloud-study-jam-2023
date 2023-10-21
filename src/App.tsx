@@ -15,16 +15,14 @@ export type DataFormat = {
   "Swags Status": string;
 }
 
-export type LeaderboardFormat = {
-  "Date": string;
-}
+
 
 const GET_ALL_USERS = import.meta.env.VITE_API_URL + '/member';
 const GET_LEADERBOARD = import.meta.env.VITE_API_URL + '/leaderboard'
 
 function App() {
   const [dataArr, setDataArr] = useState<Array<DataFormat>>([]);
-  const [leaderboard, setLeaderboard] = useState<LeaderboardFormat[]>([])
+  const [leaderboard, setLeaderboard] = useState<object[]>([])
 
   useEffect(() => {
     const loadedUsers: DataFormat[] = [];
@@ -43,7 +41,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const loadedUsers: LeaderboardFormat[] = [];
+    const loadedUsers: object[]= [];
     axios.get(GET_LEADERBOARD)
       .then(response => {
         const dataSet = response.data["data"];

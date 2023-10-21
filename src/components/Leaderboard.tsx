@@ -1,9 +1,8 @@
-import { LeaderboardFormat } from "../App"
 import { Stack } from "react-bootstrap"
 import { convertStringToDate as toDate } from "../utils/date"
 
 type LeaderboardProps = {
-    dataArr: LeaderboardFormat[]
+    dataArr: any[]
 }
 
 const colors = ["primary", "danger", "warning", "primary", "success", "danger"]
@@ -16,8 +15,10 @@ const Leaderboard = (props: LeaderboardProps) => {
     <Stack direction="vertical" className="align-items-center" style={{}}>
     {
     props.dataArr.map((data, index) => {
+
         for(const key in data){
-            const date = toDate((data[key]) as string)
+      console.log(key, typeof data[key]);
+            const date = toDate((data[key]))
 
             return <p className={`bg-${colors[index % (colors.length)]} bg-opacity-90 text-white border mx-5 px-5 py-2 rounded-pill w-100 d-flex  justify-content-between`} key={key}><span>#{<span className="fw-bold">{index+1}</span>}</span> <span className="fw-bold">{key}</span> <span>Completed on: {<span className="fw-bold">{date}</span>}</span></p>;
         }
